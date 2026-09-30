@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Enter password</title>
+<style>
+:root{--bg:#eef2f7;--card:#fff;--text:#1b2430;--muted:#66758a;--accent:#2f5bea;--err:#c62828;--border:#d3dbe6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151c;--card:#1a212b;--text:#e8edf4;--muted:#90a0b5;--accent:#6f93ff;--err:#ff7b7b;--border:#2b3645}}
+:root[data-theme="dark"]{--bg:#10151c;--card:#1a212b;--text:#e8edf4;--muted:#90a0b5;--accent:#6f93ff;--err:#ff7b7b;--border:#2b3645}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box}
+.box{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;width:100%;max-width:340px}
+h1{font-size:1.25rem;margin:0 0 6px}
+p{margin:0 0 18px;color:var(--muted);font-size:.95rem}
+input{width:100%;box-sizing:border-box;padding:11px 12px;font-size:1rem;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text)}
+input:focus,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button{width:100%;margin-top:12px;padding:11px;font-size:1rem;border:0;border-radius:8px;background:var(--accent);color:#fff;cursor:pointer}
+#msg{min-height:1.2em;margin-top:10px;font-size:.9rem;color:var(--err)}
+#msg.ok{color:var(--accent)}
+.shake{animation:s .3s}
+@keyframes s{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@media (prefers-reduced-motion:reduce){.shake{animation:none}}
+</style>
+</head>
+<body>
+<div class="box" id="box">
+  <h1>Enter password</h1>
+  <p>Type the password to open the website.</p>
+  <input id="pw" type="password" placeholder="Password" autocomplete="off" autofocus>
+  <button id="go" type="button">Enter</button>
+  <div id="msg" role="status"></div>
+</div>
+<script>
+var PASSWORD = "100";
+var LINK = "https://rajubhai.carrd.co";
+var pw = document.getElementById("pw"), msg = document.getElementById("msg"), box = document.getElementById("box");
+function check(){
+  if (pw.value === PASSWORD){
+    msg.className = "ok";
+    msg.textContent = "Correct. Opening website…";
+    window.location.href = LINK;
+  } else {
+    msg.className = "";
+    msg.textContent = "Wrong password. Try again.";
+    box.classList.remove("shake"); void box.offsetWidth; box.classList.add("shake");
+    pw.select();
+  }
+}
+document.getElementById("go").addEventListener("click", check);
+pw.addEventListener("keydown", function(e){ if (e.key === "Enter") check(); });
+</script>
+</body>
+</html>
